@@ -1,12 +1,8 @@
-// Em desenvolvimento: usa o proxy do Vite (/api-feed)
-// Em produção: usa um proxy externo (definido abaixo)
-const FEED_URL = import.meta.env.DEV
-  ? '/api-feed?alt=rss'
-  : 'https://api.allorigins.win/raw?url=' +
-    encodeURIComponent('https://www.sobralnoticias.com.br/feeds/posts/default?alt=rss')
+// URL do feed local (gerado automaticamente pelo GitHub Action a cada 15 min)
+const FEED_URL = `${import.meta.env.BASE_URL}feed.xml`
 
 let cache = { data: null, timestamp: 0 }
-const CACHE_TTL = 5 * 60 * 1000
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutos
 
 export async function fetchNews(force = false) {
   const now = Date.now()
