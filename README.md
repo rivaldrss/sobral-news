@@ -23,3 +23,4 @@ Push para `main` → GitHub Actions publica automaticamente no GitHub Pages.
 ## Fonte de dados
 
 RSS do Blogger: `https://www.sobralnoticias.com.br/feeds/posts/default?alt=rss`
+Teste de deploy
