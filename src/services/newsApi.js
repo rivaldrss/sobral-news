@@ -5,7 +5,7 @@ let cache = { data: null, timestamp: 0 }
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutos
 
 // Função para limpar lixo do HTML (entidades e email do blogger)
-function cleanText(text) {
+export function cleanText(text) {
   if (!text) return ''
   return text
     .replace(/&nbsp;/g, ' ')
