@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import { formatDate } from '../services/newsApi.js'
+import { formatDate, cleanText } from '../services/newsApi.js'
 
 export default function NewsCard({ news }) {
   // Limpa HTML do content para resumo
-  const plainText = news.content.replace(/<[^>]+>/g, '').trim()
+  const plainText = cleanText(news.content.replace(/<[^>]+>/g, '').trim())
   const summary = plainText.length > 140 ? plainText.slice(0, 140) + '...' : plainText
 
   return (
