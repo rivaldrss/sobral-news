@@ -1,16 +1,21 @@
-name: Update RSS Feed
+name: Update Feed and Deploy
 
 on:
   schedule:
-    # Roda a cada 15 minutos
     - cron: '*/15 * * * *'
-  workflow_dispatch: # Permite rodar manualmente
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  update-feed:
+  update-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,17 +25,32 @@ jobs:
         run: |
           mkdir -p public
           curl -sSL "https://www.sobralnoticias.com.br/feeds/posts/default?alt=rss" -o public/feed.xml
-          echo "Feed baixado com sucesso"
-          ls -la public/feed.xml
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/feed.xml
+          # Só commita se houver mudança no feed
           git diff --quiet && git diff --staged --quiet || (git commit -m "Atualiza feed de notícias" && git push)
-      - name: Trigger Deploy
-        uses: peter-evans/repository-dispatch@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: feed-updated
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
