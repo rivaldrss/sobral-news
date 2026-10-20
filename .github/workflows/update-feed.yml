@@ -29,3 +29,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/feed.xml
           git diff --quiet && git diff --staged --quiet || (git commit -m "Atualiza feed de notícias" && git push)
+      - name: Trigger Deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: feed-updated
