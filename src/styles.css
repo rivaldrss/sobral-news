@@ -40,18 +40,10 @@ body {
   height: 60px;
 }
 
-.header-logo-mark {
-  background: #fff;
-  color: var(--primary);
-  font-weight: 800;
-  font-size: 16px;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.header-logo-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
 }
 
 .header-logo-text {
