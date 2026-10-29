@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Header from '../components/Header.jsx'
 import NewsCard from '../components/NewsCard.jsx'
-import Loading from '../components/Loading.jsx'
+import SkeletonCard from '../components/SkeletonCard.jsx'
 import { fetchNews } from '../services/newsApi.js'
 
 export default function Home() {
@@ -44,7 +44,16 @@ export default function Home() {
           </button>
         </div>
 
-        {loading && <Loading />}
+        {/* Mostra o Skeleton enquanto carrega */}
+        {loading && (
+          <div className="news-list">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        )}
+
         {error && <p className="error">{error}</p>}
 
         {!loading && !error && (
